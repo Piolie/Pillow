@@ -1,7 +1,9 @@
+from io import BytesIO
+
 import pytest
 
 from PIL import Image, PpmImagePlugin
-from io import BytesIO
+
 from .helper import assert_image_equal, assert_image_similar, hopper
 
 # sample ppm stream
