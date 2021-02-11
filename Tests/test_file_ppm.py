@@ -112,8 +112,9 @@ def test_plain_pbm_truncated_data(tmp_path):
     with open(path, "wb") as f:
         f.write(b"P1\n128 128\n")
 
-    with pytest.raises(ValueError):
-        Image.open(path).load()
+    with Image.open(path) as im:
+        with pytest.raises(ValueError):
+            im.load()
 
 
 def test_plain_pbm_invalid_data(tmp_path):
@@ -121,8 +122,9 @@ def test_plain_pbm_invalid_data(tmp_path):
     with open(path, "wb") as f:
         f.write(b"P1\n128 128\n1009")
 
-    with pytest.raises(ValueError):
-        Image.open(path).load()
+    with Image.open(path) as im:
+        with pytest.raises(ValueError):
+            im.load()
 
 
 def test_plain_ppm_data_with_comments(tmp_path):
@@ -144,8 +146,9 @@ def test_plain_ppm_truncated_data(tmp_path):
     with open(path, "wb") as f:
         f.write(b"P3\n128 128\n255\n")
 
-    with pytest.raises(ValueError):
-        Image.open(path).load()
+    with Image.open(path) as im:
+        with pytest.raises(ValueError):
+            im.load()
 
 
 def test_plain_ppm_invalid_data(tmp_path):
@@ -153,8 +156,9 @@ def test_plain_ppm_invalid_data(tmp_path):
     with open(path, "wb") as f:
         f.write(b"P3\n128 128\n255\n100A")
 
-    with pytest.raises(ValueError):
-        Image.open(path).load()
+    with Image.open(path) as im:
+        with pytest.raises(ValueError):
+            im.load()
 
 
 def test_plain_ppm_half_token_too_long(tmp_path):
@@ -162,8 +166,9 @@ def test_plain_ppm_half_token_too_long(tmp_path):
     with open(path, "wb") as f:
         f.write(b"P3\n128 128\n255\n012345678910")
 
-    with pytest.raises(ValueError):
-        Image.open(path).load()
+    with Image.open(path) as im:
+        with pytest.raises(ValueError):
+            im.load()
 
 
 def test_plain_ppm_token_too_long(tmp_path):
@@ -171,8 +176,9 @@ def test_plain_ppm_token_too_long(tmp_path):
     with open(path, "wb") as f:
         f.write(b"P3\n128 128\n255\n012345678910 0")
 
-    with pytest.raises(ValueError):
-        Image.open(path).load()
+    with Image.open(path) as im:
+        with pytest.raises(ValueError):
+            im.load()
 
 
 def test_plain_ppm_value_too_large(tmp_path):
@@ -180,8 +186,9 @@ def test_plain_ppm_value_too_large(tmp_path):
     with open(path, "wb") as f:
         f.write(b"P3\n128 128\n255\n256")
 
-    with pytest.raises(ValueError):
-        Image.open(path).load()
+    with Image.open(path) as im:
+        with pytest.raises(ValueError):
+            im.load()
 
 
 def test_not_ppm(tmp_path):
@@ -204,7 +211,8 @@ def test_nondecimal_header(tmp_path):
         f.write(b"P6\n128\x00")
 
     with pytest.raises(ValueError):
-        Image.open(path)
+        with Image.open(path):
+            pass
 
 
 def test_header_token_too_long(tmp_path):
@@ -213,7 +221,8 @@ def test_header_token_too_long(tmp_path):
         f.write(b"P6\n 012345678910")
 
     with pytest.raises(ValueError):
-        Image.open(path)
+        with Image.open(path):
+            pass
 
 
 def test_too_many_colors(tmp_path):
@@ -222,7 +231,8 @@ def test_too_many_colors(tmp_path):
         f.write(b"P6\n1 1\n1000\n")
 
     with pytest.raises(ValueError):
-        Image.open(path)
+        with Image.open(path):
+            pass
 
 
 def test_truncated_header(tmp_path):
